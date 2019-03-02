@@ -17,13 +17,13 @@ class LoginController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * 展示登录页面
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        //
+        return view('login.create');
     }
 
     /**
@@ -34,7 +34,10 @@ class LoginController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'email' =>'required|email|exists:users',
+            'password' => 'required'
+        ]);
     }
 
     /**

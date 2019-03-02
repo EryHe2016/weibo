@@ -10,6 +10,7 @@ return [
 		'email' => [
 			'required' => '邮箱地址不能为空！',
 			'email' => '邮箱格式不正确',
+			'exists' => '该邮箱不存在'
 		],
 		'password' => [
 			'required' => '密码不能为空',

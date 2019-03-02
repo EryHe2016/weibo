@@ -20,3 +20,7 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 Route::get('/signup', 'UsersController@create')->name('signup');
 //用户资源路由
 Route::resource('/users', 'UsersController');
+//用户登录
+Route::get('/login', 'LoginController@create')->name('login');
+Route::post('/login', 'LoginController@store')->name('login');
+Route::get('/logout', 'LoginController@destroy')->name('logout');
