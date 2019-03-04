@@ -23,4 +23,4 @@ Route::resource('/users', 'UsersController');
 //用户登录
 Route::get('/login', 'LoginController@create')->name('login');
 Route::post('/login', 'LoginController@store')->name('login');
-Route::get('/logout', 'LoginController@destroy')->name('logout');
+Route::delete('/logout', 'LoginController@destroy')->name('logout');
