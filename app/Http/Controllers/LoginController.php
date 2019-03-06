@@ -32,7 +32,8 @@ class LoginController extends Controller
             'email' =>'required|email|exists:users',
             'password' => 'required'
         ]);
-        if(Auth::attempt($credential)){
+    
+        if(Auth::attempt($credential, $request->has('remember'))){
             session()->flash('success', '欢迎回来！');
             return redirect()->route('users.show', [Auth::user()]);
         }else{
