@@ -9,12 +9,25 @@ use Mail;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        //用来限制已登录的用户或者游客编辑、查看不属于自己的相关信息
+        $this->middleware('auth', [
+            'except' => ['create', 'store'],
+        ]);
+
+        //限制已登录的用户不能访问注册页面，也就是注册页面只有游客才可以访问
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     /**
      * 展示用户列表 GET	/users
      */
     public function index()
     {
-
+        return 123;
     }
 
     /**
@@ -93,17 +106,30 @@ class UsersController extends Controller
     /**
      * 编辑用户个人资料页面	GET	/users/{user}/edit
      */
-    public function edit()
+    public function edit($id)
     {
-
+        $user = User::findOrFail($id);
+        $this->authorize('edit', $user);
+        return view('users.edit', compact('user'));
     }
 
     /**
      * 更新用户信息	PATCH	/users/{user}
      */
-    public function update()
+    public function update(User $user, Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required|regex:[\w{5,10}]',
+            'password' => 'required|same:password_confirmation',
 
+        ]);
+        $user->update([
+            'name' => $request->name,
+            'password' => bcrypt($request->password)
+        ]);
+
+        session()->flash('success', '个人资料编辑成功');
+        return redirect()->route('users.show', $user->id);
     }
 
     /**
